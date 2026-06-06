@@ -52,3 +52,13 @@ class ExamDate(SQLModel, table=True):
     label: str
     date: date
     kind: str  # "exam" | "result" (validated at the schema boundary)
+
+
+class WeeklyReflection(SQLModel, table=True):
+    """Cached weekly reflection (one per week_start) to avoid repeat LLM calls."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    week_start: date = Field(index=True, unique=True)
+    body: str
+    source: str  # "ai" | "template"
+    generated_at: datetime = Field(default_factory=utcnow)

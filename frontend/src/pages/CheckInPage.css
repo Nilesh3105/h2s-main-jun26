@@ -40,6 +40,39 @@
   border-color: var(--accent);
 }
 
+.checkin-assist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.checkin-assist__btn {
+  min-height: 36px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.checkin-assist__btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.checkin-assist__prompt {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface);
+  border: 1px dashed var(--accent);
+  border-radius: 0.5rem;
+  color: var(--text);
+  font-style: italic;
+}
+
 .recent__list {
   list-style: none;
   margin: 0;

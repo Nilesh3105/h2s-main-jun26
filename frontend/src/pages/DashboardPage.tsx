@@ -8,6 +8,7 @@ import { SeasonBanner } from '../components/SeasonBanner'
 import { ServerNotice } from '../components/ServerNotice'
 import { TopTriggers } from '../components/TopTriggers'
 import { TrendChart } from '../components/TrendChart'
+import { WeeklyReflection } from '../components/WeeklyReflection'
 import { api, isServerUnavailable } from '../lib/api'
 import type { ExamDate, ExamKind, Insights } from '../lib/types'
 
@@ -87,6 +88,7 @@ export function DashboardPage() {
       {insights && (
         <>
           <SeasonBanner season={insights.season} />
+          <WeeklyReflection />
 
           <section className="dashboard__trend" aria-labelledby="trend-heading">
             <h2 id="trend-heading">Your mood over time</h2>

@@ -94,3 +94,28 @@ export interface Insights {
   season: SeasonStatus
   total_check_ins: number
 }
+
+// --- GenAI assist (Milestone 5) — each carries `source: 'ai' | 'template'` ---
+
+export interface Reflection {
+  week_start: string
+  body: string
+  source: string
+}
+
+export interface ReframeResult {
+  reframe: string
+  source: string
+  crisis: boolean
+}
+
+export interface PromptResult {
+  prompt: string
+  source: string
+}
+
+export interface TagsResult {
+  triggers: Trigger[]
+  source: string
+  crisis: boolean
+}

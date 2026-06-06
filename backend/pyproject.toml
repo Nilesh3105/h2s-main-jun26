@@ -10,6 +10,8 @@ dependencies = [
     "sqlmodel>=0.0.22",
     "pydantic>=2.7",
     "pydantic-settings>=2.3",
+    "langchain-core>=0.3",
+    "langchain-google-genai>=2.0",
 ]
 
 # Treat this as a "virtual" project: uv installs the dependencies into the venv

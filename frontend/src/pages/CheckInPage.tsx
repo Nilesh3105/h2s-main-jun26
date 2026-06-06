@@ -55,6 +55,8 @@ export function CheckInPage() {
   const [validation, setValidation] = useState<string | null>(null)
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [recent, setRecent] = useState<CheckInRecord[]>([])
+  const [promptText, setPromptText] = useState('')
+  const [assisting, setAssisting] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -82,6 +84,31 @@ export function CheckInPage() {
     setSelected((current) =>
       current.includes(slug) ? current.filter((s) => s !== slug) : [...current, slug],
     )
+  }
+
+  // GenAI enhancements — both fail quietly (the form works without them).
+  async function handleSuggestPrompt() {
+    setAssisting(true)
+    try {
+      setPromptText((await api.suggestPrompt()).prompt)
+    } catch {
+      // optional nudge; ignore if unavailable
+    } finally {
+      setAssisting(false)
+    }
+  }
+
+  async function handleSuggestTags() {
+    if (!note.trim()) {
+      return
+    }
+    try {
+      const result = await api.suggestTags(note)
+      const slugs = result.triggers.map((trigger) => trigger.slug)
+      setSelected((current) => [...new Set([...current, ...slugs])])
+    } catch {
+      // optional assist; ignore if unavailable
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -158,7 +185,28 @@ export function CheckInPage() {
         {triggers.length > 0 && (
           <TriggerPicker triggers={triggers} selected={selected} onToggle={toggleTrigger} />
         )}
+        {promptText && (
+          <p className="checkin-assist__prompt" aria-live="polite">
+            Try starting with: &ldquo;{promptText}&rdquo;
+          </p>
+        )}
         <NoteField value={note} onChange={setNote} />
+
+        <div className="checkin-assist">
+          <button
+            type="button"
+            className="checkin-assist__btn"
+            onClick={handleSuggestPrompt}
+            disabled={assisting}
+          >
+            {assisting ? 'Thinking…' : 'Need a nudge?'}
+          </button>
+          {note.trim().length > 0 && triggers.length > 0 && (
+            <button type="button" className="checkin-assist__btn" onClick={handleSuggestTags}>
+              Suggest tags from my note
+            </button>
+          )}
+        </div>
 
         {validation && (
           <p role="alert" className="form-error">

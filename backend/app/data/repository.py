@@ -11,7 +11,13 @@ from datetime import date
 
 from sqlmodel import Session, col, select
 
-from app.data.models import CheckIn, CheckInTrigger, ExamDate, InterventionEvent
+from app.data.models import (
+    CheckIn,
+    CheckInTrigger,
+    ExamDate,
+    InterventionEvent,
+    WeeklyReflection,
+)
 
 
 def create_check_in(
@@ -101,3 +107,29 @@ def delete_exam_date(session: Session, *, exam_date_id: int) -> bool:
     session.delete(exam_date)
     session.commit()
     return True
+
+
+def get_reflection(session: Session, week_start: date) -> WeeklyReflection | None:
+    """Return the cached reflection for a week, if any."""
+    return session.exec(
+        select(WeeklyReflection).where(WeeklyReflection.week_start == week_start)
+    ).first()
+
+
+def save_reflection(
+    session: Session, *, week_start: date, body: str, source: str
+) -> WeeklyReflection:
+    """Persist (cache) a weekly reflection."""
+    reflection = WeeklyReflection(week_start=week_start, body=body, source=source)
+    session.add(reflection)
+    session.commit()
+    session.refresh(reflection)
+    return reflection
+
+
+def delete_all_user_data(session: Session) -> None:
+    """Erase every stored row — the user's one-tap 'delete my data' (DPDP)."""
+    for model in (CheckInTrigger, InterventionEvent, CheckIn, ExamDate, WeeklyReflection):
+        for row in session.exec(select(model)).all():
+            session.delete(row)
+    session.commit()

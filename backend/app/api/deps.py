@@ -11,6 +11,9 @@ from typing import Annotated
 from fastapi import Depends
 from sqlmodel import Session
 
+from app.ai.provider import get_ai
+from app.ai.service import AiService
 from app.data.db import get_session
 
 SessionDep = Annotated[Session, Depends(get_session)]
+AiDep = Annotated[AiService, Depends(get_ai)]

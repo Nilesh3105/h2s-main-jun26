@@ -1,6 +1,7 @@
 import type { ChangeEvent, FormEvent } from 'react'
 import { useState } from 'react'
 
+import { api } from '../lib/api'
 import './ThoughtRecord.css'
 
 export interface ThoughtRecordProps {
@@ -17,11 +18,29 @@ export function ThoughtRecord({ onComplete }: ThoughtRecordProps) {
   const [thought, setThought] = useState('')
   const [reframe, setReframe] = useState('')
   const [done, setDone] = useState(false)
+  const [suggesting, setSuggesting] = useState(false)
+  const [suggestHint, setSuggestHint] = useState('')
 
   const handleChange =
     (setValue: (value: string) => void) => (event: ChangeEvent<HTMLTextAreaElement>) => {
       setValue(event.target.value)
     }
+
+  async function handleSuggest() {
+    if (!thought.trim()) {
+      return
+    }
+    setSuggesting(true)
+    setSuggestHint('')
+    try {
+      const result = await api.suggestReframe(thought)
+      setReframe(result.reframe)
+    } catch {
+      setSuggestHint('Couldn’t fetch a suggestion right now — your own words work best anyway.')
+    } finally {
+      setSuggesting(false)
+    }
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -72,6 +91,19 @@ export function ThoughtRecord({ onComplete }: ThoughtRecordProps) {
           value={reframe}
           onChange={handleChange(setReframe)}
         />
+        <button
+          className="thought-record__suggest"
+          type="button"
+          onClick={handleSuggest}
+          disabled={!thought.trim() || suggesting}
+        >
+          {suggesting ? 'Thinking…' : 'Suggest a kinder reframe'}
+        </button>
+        {suggestHint && (
+          <p className="thought-record__hint" aria-live="polite">
+            {suggestHint}
+          </p>
+        )}
       </div>
 
       <button className="thought-record__submit" type="submit" disabled={!canFinish}>

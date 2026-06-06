@@ -9,6 +9,10 @@ import type {
   ExamDate,
   ExamKind,
   Insights,
+  PromptResult,
+  Reflection,
+  ReframeResult,
+  TagsResult,
   Trigger,
 } from './types'
 
@@ -79,4 +83,16 @@ export const api = {
       body: JSON.stringify({ label, date, kind }),
     }),
   deleteExamDate: (id: number) => request<void>(`/api/exam-dates/${id}`, { method: 'DELETE' }),
+  getReflection: () => request<Reflection>('/api/reflection'),
+  suggestReframe: (thought: string) =>
+    request<ReframeResult>('/api/assist/reframe', {
+      method: 'POST',
+      body: JSON.stringify({ thought }),
+    }),
+  suggestPrompt: () => request<PromptResult>('/api/assist/prompt'),
+  suggestTags: (note: string) =>
+    request<TagsResult>('/api/assist/tags', {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    }),
 }

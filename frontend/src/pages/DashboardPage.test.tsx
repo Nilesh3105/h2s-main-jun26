@@ -12,6 +12,7 @@ vi.mock('../lib/api', () => ({
     listExamDates: vi.fn().mockResolvedValue([]),
     addExamDate: vi.fn(),
     deleteExamDate: vi.fn(),
+    getReflection: vi.fn(),
   },
   ApiError: class ApiError extends Error {},
   isServerUnavailable: (err: unknown) =>
@@ -33,6 +34,11 @@ const sampleInsights: Insights = {
 beforeEach(() => {
   vi.clearAllMocks()
   vi.mocked(api.listExamDates).mockResolvedValue([])
+  vi.mocked(api.getReflection).mockResolvedValue({
+    week_start: '2026-06-01',
+    body: 'A gentle weekly note.',
+    source: 'template',
+  })
 })
 
 describe('DashboardPage', () => {
@@ -42,6 +48,7 @@ describe('DashboardPage', () => {
     expect(await screen.findByText(/checked in across 1 day/i)).toBeInTheDocument()
     expect(screen.getByText('Exam season')).toBeInTheDocument()
     expect(screen.getByText('Anxious or panicky')).toBeInTheDocument()
+    expect(await screen.findByText(/gentle weekly note/i)).toBeInTheDocument()
   })
 
   it('has no accessibility violations', async () => {

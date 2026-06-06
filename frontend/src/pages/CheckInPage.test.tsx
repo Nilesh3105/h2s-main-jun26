@@ -13,6 +13,10 @@ vi.mock('../lib/api', () => ({
     listCheckIns: vi.fn().mockResolvedValue([]),
     createCheckIn: vi.fn(),
     logIntervention: vi.fn().mockResolvedValue({ status: 'recorded' }),
+    suggestPrompt: vi
+      .fn()
+      .mockResolvedValue({ prompt: 'One small win today was…', source: 'template' }),
+    suggestTags: vi.fn().mockResolvedValue({ triggers: [], source: 'template', crisis: false }),
   },
   ApiError: class ApiError extends Error {},
   isServerUnavailable: () => false,
