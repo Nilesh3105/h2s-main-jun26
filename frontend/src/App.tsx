@@ -1,11 +1,21 @@
 import './App.css'
 
+import { Suspense, lazy } from 'react'
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 
 import { ApproachPage } from './pages/ApproachPage'
 import { CheckInPage } from './pages/CheckInPage'
 import { CrisisPage } from './pages/CrisisPage'
 import { DashboardPage } from './pages/DashboardPage'
+
+// Lazy-load the research reader so its markdown renderer stays out of the main
+// bundle — it only loads when someone actually browses the research.
+const ResearchIndexPage = lazy(() =>
+  import('./pages/ResearchIndexPage').then((m) => ({ default: m.ResearchIndexPage })),
+)
+const ResearchDocPage = lazy(() =>
+  import('./pages/ResearchDocPage').then((m) => ({ default: m.ResearchDocPage })),
+)
 
 function App() {
   return (
@@ -36,12 +46,16 @@ function App() {
         </header>
 
         <main className="app-main">
-          <Routes>
-            <Route path="/" element={<CheckInPage />} />
-            <Route path="/trends" element={<DashboardPage />} />
-            <Route path="/help" element={<CrisisPage />} />
-            <Route path="/approach" element={<ApproachPage />} />
-          </Routes>
+          <Suspense fallback={<p>Loading&hellip;</p>}>
+            <Routes>
+              <Route path="/" element={<CheckInPage />} />
+              <Route path="/trends" element={<DashboardPage />} />
+              <Route path="/help" element={<CrisisPage />} />
+              <Route path="/approach" element={<ApproachPage />} />
+              <Route path="/approach/research" element={<ResearchIndexPage />} />
+              <Route path="/approach/research/:slug" element={<ResearchDocPage />} />
+            </Routes>
+          </Suspense>
         </main>
 
         <footer className="app-footer">

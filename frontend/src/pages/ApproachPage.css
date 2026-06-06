@@ -33,3 +33,11 @@
   border: 1px solid var(--border);
   font-size: 0.9em;
 }
+
+.approach-page__cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--accent);
+}

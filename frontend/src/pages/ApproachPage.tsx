@@ -1,5 +1,7 @@
 import './ApproachPage.css'
 
+import { Link } from 'react-router-dom'
+
 import { DataControls } from '../components/DataControls'
 
 /**
@@ -33,6 +35,11 @@ export function ApproachPage() {
           hunch. The reasoning and citations behind each one live in the project&rsquo;s{' '}
           <code>research/</code> folder, so you (or anyone) can check where a suggestion comes from
           and why we think it helps.
+        </p>
+        <p>
+          <Link className="approach-page__cta" to="/approach/research">
+            Browse the research &rarr;
+          </Link>
         </p>
       </section>
 
