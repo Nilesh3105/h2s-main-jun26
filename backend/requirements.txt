@@ -1,0 +1,11 @@
+# Runtime dependencies for the Vercel Python serverless deployment.
+# Deliberately MINIMAL and langchain-free: the hosted demo runs keyless, so the
+# GenAI packages (declared in pyproject.toml for local/CI) aren't needed here —
+# the app falls back to its deterministic layer. This keeps the function small.
+fastapi==0.136.3
+starlette==1.2.1
+sqlmodel==0.0.38
+sqlalchemy==2.0.50
+pydantic==2.13.4
+pydantic-settings==2.14.1
+python-dotenv==1.2.2

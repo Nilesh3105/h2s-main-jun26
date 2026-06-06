@@ -15,9 +15,14 @@ The LLM never gates a decision — it only rephrases (DESIGN §7).
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
-from langchain_core.language_models import BaseChatModel
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    # Imported for type-checking only — the keyless runtime path never needs
+    # langchain installed (annotations are lazy under `from __future__`).
+    from langchain_core.language_models import BaseChatModel
 
 from app.ai.fallbacks import (
     WeekStats,

@@ -6,10 +6,13 @@ be constructed — so the app never hard-depends on GenAI.
 
 from __future__ import annotations
 
-from langchain_core.language_models import BaseChatModel
+from typing import TYPE_CHECKING
 
 from app.ai.service import AiService
 from app.settings import get_settings
+
+if TYPE_CHECKING:
+    from langchain_core.language_models import BaseChatModel
 
 
 def get_chat_model() -> BaseChatModel | None:
