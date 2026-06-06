@@ -1,0 +1,26 @@
+.app-shell {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.app-shell h1 {
+  color: var(--accent);
+  margin: 0 0 0.25rem;
+}
+
+.tagline {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.disclaimer {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
