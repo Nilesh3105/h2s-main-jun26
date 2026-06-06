@@ -6,8 +6,10 @@ and never committed. The app is fully functional with no secrets set.
 
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -25,12 +27,23 @@ class Settings(BaseSettings):
     # SQLite by default: zero-config and reproducible in a clean grader environment.
     database_url: str = "sqlite:///./softreset.db"
 
-    # Comma-separated CORS allowlist; defaults to the local Vite dev server.
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    # Comma-separated CORS allowlist: the local Vite dev server + the hosted frontend.
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173,https://softreset.vercel.app"
 
     # GenAI is optional and additive. With no key, deterministic fallbacks are used.
     google_api_key: str | None = None
     gemini_model: str = "gemini-3.5-flash"
+
+    @model_validator(mode="after")
+    def _use_writable_db_on_serverless(self) -> Settings:
+        """On Vercel the filesystem is read-only except /tmp — relocate SQLite there."""
+        if (
+            os.environ.get("VERCEL")
+            and self.database_url.startswith("sqlite")
+            and "/tmp/" not in self.database_url
+        ):
+            self.database_url = "sqlite:////tmp/softreset.db"
+        return self
 
     @property
     def cors_origin_list(self) -> list[str]:
