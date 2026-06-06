@@ -3,6 +3,9 @@
 *.env
 !.env.example
 
+# --- Submission text (kept local, not committed) ---
+SUBMISSION.txt
+
 # --- Python / uv ---
 .venv/
 __pycache__/
