@@ -1,0 +1,18 @@
+.server-notice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  color: var(--text-muted);
+}
+
+.server-notice__title {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.server-notice p:last-child {
+  margin: 0;
+}

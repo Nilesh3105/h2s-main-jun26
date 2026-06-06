@@ -24,6 +24,18 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * True when a failure means the backend simply isn't reachable — a network
+ * error (status 0), a missing API (404, e.g. the static preview with no server),
+ * or a server fault (5xx). The UI treats these as a calm "offline" state rather
+ * than an alarming error, since the app's safety features still work locally.
+ */
+export function isServerUnavailable(error: unknown): boolean {
+  return (
+    error instanceof ApiError && (error.status === 0 || error.status === 404 || error.status >= 500)
+  )
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response
   try {

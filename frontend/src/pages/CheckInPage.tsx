@@ -3,13 +3,14 @@ import './CheckInPage.css'
 import type { FormEvent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { api } from '../lib/api'
+import { api, isServerUnavailable } from '../lib/api'
 import type { CheckInRecord, CheckInResult, Trigger } from '../lib/types'
 import { EnergyScale } from '../components/EnergyScale'
 import { HelpResources } from '../components/HelpResources'
 import { InterventionCard } from '../components/InterventionCard'
 import { MoodScale } from '../components/MoodScale'
 import { NoteField } from '../components/NoteField'
+import { ServerNotice } from '../components/ServerNotice'
 import { SleepField } from '../components/SleepField'
 import { TriggerPicker } from '../components/TriggerPicker'
 
@@ -50,6 +51,7 @@ export function CheckInPage() {
   const [selected, setSelected] = useState<string[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [offline, setOffline] = useState(false)
   const [validation, setValidation] = useState<string | null>(null)
   const [result, setResult] = useState<CheckInResult | null>(null)
   const [recent, setRecent] = useState<CheckInRecord[]>([])
@@ -91,6 +93,7 @@ export function CheckInPage() {
     setValidation(null)
     setSubmitting(true)
     setError(null)
+    setOffline(false)
     try {
       const res = await api.createCheckIn({
         mood,
@@ -102,7 +105,11 @@ export function CheckInPage() {
       setResult(res)
       refreshRecent()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      if (isServerUnavailable(err)) {
+        setOffline(true)
+      } else {
+        setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      }
     } finally {
       setSubmitting(false)
     }
@@ -162,6 +169,13 @@ export function CheckInPage() {
           <p role="alert" className="form-error">
             {error}
           </p>
+        )}
+        {offline && (
+          <ServerNotice>
+            We couldn&rsquo;t save this check-in — the Soft Reset server isn&rsquo;t reachable in
+            this preview. Run it locally to save check-ins. The grounding tools and the help link
+            still work.
+          </ServerNotice>
         )}
 
         <button type="submit" className="checkin-form__submit" disabled={submitting}>

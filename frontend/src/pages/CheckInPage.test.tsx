@@ -15,6 +15,7 @@ vi.mock('../lib/api', () => ({
     logIntervention: vi.fn().mockResolvedValue({ status: 'recorded' }),
   },
   ApiError: class ApiError extends Error {},
+  isServerUnavailable: () => false,
 }))
 
 function sampleResult(crisis = false): CheckInResult {

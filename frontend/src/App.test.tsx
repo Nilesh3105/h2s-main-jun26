@@ -19,6 +19,7 @@ vi.mock('./lib/api', () => ({
     deleteExamDate: vi.fn(),
   },
   ApiError: class ApiError extends Error {},
+  isServerUnavailable: () => false,
 }))
 
 describe('App shell', () => {

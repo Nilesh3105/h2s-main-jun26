@@ -14,6 +14,11 @@ vi.mock('../lib/api', () => ({
     deleteExamDate: vi.fn(),
   },
   ApiError: class ApiError extends Error {},
+  isServerUnavailable: (err: unknown) =>
+    typeof err === 'object' &&
+    err !== null &&
+    'status' in err &&
+    [0, 404].includes((err as { status: number }).status),
 }))
 
 const sampleInsights: Insights = {
@@ -50,5 +55,14 @@ describe('DashboardPage', () => {
     vi.mocked(api.getInsights).mockRejectedValue(new Error('boom'))
     render(<DashboardPage />)
     expect(await screen.findByRole('alert')).toBeInTheDocument()
+  })
+
+  it('shows a calm offline notice (not a red error) when the server is unreachable', async () => {
+    vi.mocked(api.getInsights).mockRejectedValue(
+      Object.assign(new Error('not found'), { status: 404 }),
+    )
+    render(<DashboardPage />)
+    expect(await screen.findByText(/data layer is paused/i)).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 })

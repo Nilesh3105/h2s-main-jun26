@@ -5,16 +5,27 @@ import { useCallback, useEffect, useState } from 'react'
 import { ExamDateManager } from '../components/ExamDateManager'
 import { InsightCards } from '../components/InsightCards'
 import { SeasonBanner } from '../components/SeasonBanner'
+import { ServerNotice } from '../components/ServerNotice'
 import { TopTriggers } from '../components/TopTriggers'
 import { TrendChart } from '../components/TrendChart'
-import { api } from '../lib/api'
+import { api, isServerUnavailable } from '../lib/api'
 import type { ExamDate, ExamKind, Insights } from '../lib/types'
 
 export function DashboardPage() {
   const [insights, setInsights] = useState<Insights | null>(null)
   const [dates, setDates] = useState<ExamDate[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [offline, setOffline] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  function reportError(err: unknown, fallback: string) {
+    if (isServerUnavailable(err)) {
+      setOffline(true)
+      setError(null)
+      return
+    }
+    setError(err instanceof Error ? err.message : fallback)
+  }
 
   // State updates happen only in the promise callbacks (after the fetch settles),
   // never synchronously inside the effect body — this is a data-load, not a
@@ -25,10 +36,9 @@ export function DashboardPage() {
         setInsights(ins)
         setDates(ex)
         setError(null)
+        setOffline(false)
       })
-      .catch((err: unknown) => {
-        setError(err instanceof Error ? err.message : 'Could not load your trends right now.')
-      })
+      .catch((err: unknown) => reportError(err, 'Could not load your trends right now.'))
       .finally(() => setLoading(false))
   }, [])
 
@@ -39,7 +49,7 @@ export function DashboardPage() {
       await api.addExamDate(label, date, kind)
       load()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not save that date.')
+      reportError(err, 'Could not save that date.')
     }
   }
 
@@ -48,7 +58,7 @@ export function DashboardPage() {
       await api.deleteExamDate(id)
       load()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not remove that date.')
+      reportError(err, 'Could not remove that date.')
     }
   }
 
@@ -60,6 +70,14 @@ export function DashboardPage() {
       </header>
 
       {loading && <p>Loading your trends&hellip;</p>}
+
+      {offline && (
+        <ServerNotice>
+          Your private trends live on the Soft Reset server. In this hosted preview the data layer
+          is paused — run it locally and your mood history will appear here.
+        </ServerNotice>
+      )}
+
       {error && (
         <p role="alert" className="form-error">
           {error}
@@ -80,7 +98,7 @@ export function DashboardPage() {
         </>
       )}
 
-      <ExamDateManager dates={dates} onAdd={handleAdd} onDelete={handleDelete} />
+      {!offline && <ExamDateManager dates={dates} onAdd={handleAdd} onDelete={handleDelete} />}
     </div>
   )
 }
