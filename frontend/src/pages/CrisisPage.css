@@ -1,0 +1,33 @@
+.crisis-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.crisis-page__intro h2 {
+  margin: 0 0 0.5rem;
+}
+
+.crisis-page__intro p,
+.crisis-page__grounding p {
+  margin: 0;
+  color: var(--text);
+}
+
+.crisis-page__grounding {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.crisis-page__grounding h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.crisis-page__disclaimer {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

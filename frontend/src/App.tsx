@@ -1,15 +1,12 @@
 import './App.css'
 
-import { useState } from 'react'
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 
-import { HelpResources } from './components/HelpResources'
 import { CheckInPage } from './pages/CheckInPage'
+import { CrisisPage } from './pages/CrisisPage'
 import { DashboardPage } from './pages/DashboardPage'
 
 function App() {
-  const [showHelp, setShowHelp] = useState(false)
-
   return (
     <BrowserRouter>
       <div className="app">
@@ -21,15 +18,10 @@ function App() {
                 A private, judgment-free space to check in on how you&rsquo;re doing.
               </p>
             </div>
-            <button
-              type="button"
-              className="help-toggle"
-              aria-expanded={showHelp}
-              aria-controls="help-panel"
-              onClick={() => setShowHelp((open) => !open)}
-            >
+            {/* Always one tap away — a deep-linkable, offline-capable crisis screen. */}
+            <NavLink to="/help" className="help-toggle">
               Need to talk now?
-            </button>
+            </NavLink>
           </div>
 
           <nav className="app-nav" aria-label="Primary">
@@ -37,26 +29,22 @@ function App() {
               Check in
             </NavLink>
             <NavLink to="/trends">Trends</NavLink>
+            <NavLink to="/help">Get help</NavLink>
           </nav>
-
-          {showHelp && (
-            <div id="help-panel" className="help-panel">
-              <HelpResources />
-            </div>
-          )}
         </header>
 
         <main className="app-main">
           <Routes>
             <Route path="/" element={<CheckInPage />} />
             <Route path="/trends" element={<DashboardPage />} />
+            <Route path="/help" element={<CrisisPage />} />
           </Routes>
         </main>
 
         <footer className="app-footer">
           <p className="disclaimer" role="note">
             Soft Reset is a wellness companion, not a medical device. It does not diagnose or treat
-            any condition. If something feels urgent, please reach out using the help button above.
+            any condition. If something feels urgent, please use the help link above.
           </p>
         </footer>
       </div>

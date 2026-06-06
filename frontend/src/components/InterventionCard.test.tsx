@@ -6,37 +6,45 @@ import { describe, expect, it, vi } from 'vitest'
 import type { Recommendation } from '../lib/types'
 import { InterventionCard } from './InterventionCard'
 
-const breathing: Recommendation = {
-  technique: 'breathing',
-  title: 'Take a slow breath',
-  rationale: 'Because you felt anxious, a slow breath might help right now.',
-  why_it_helps: 'Slow, paced breathing calms the body within a couple of minutes.',
-  source: 'Paced breathing (research/02)',
-  factors: ['anxious or panicky'],
-}
-
-const thoughtRecord: Recommendation = {
-  technique: 'thought_record',
-  title: 'Untangle the thought',
-  rationale: 'Because of a low mood today, untangling the thought might help.',
-  why_it_helps: 'Writing a thought down beside a fairer one loosens its grip.',
-  source: 'Cognitive restructuring (research/02)',
-  factors: ['a low mood today'],
+function rec(overrides: Partial<Recommendation>): Recommendation {
+  return {
+    technique: 'grounding',
+    title: 'A small grounding pause',
+    rationale: 'Whenever you want a reset, this is a gentle place to start.',
+    why_it_helps: 'Naming what you sense pulls attention out of a spiral.',
+    source: 'Grounding (research/02)',
+    factors: [],
+    ...overrides,
+  }
 }
 
 describe('InterventionCard', () => {
   it('renders the breathing pacer for the breathing technique', async () => {
-    const { container } = render(<InterventionCard recommendation={breathing} />)
+    const { container } = render(
+      <InterventionCard
+        recommendation={rec({ technique: 'breathing', title: 'Take a slow breath' })}
+      />,
+    )
     expect(screen.getByRole('heading', { name: /take a slow breath/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /start/i })).toBeInTheDocument()
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('shows steps and marks done for non-breathing techniques', async () => {
+  it('renders the interactive thought-record for that technique', () => {
+    render(<InterventionCard recommendation={rec({ technique: 'thought_record' })} />)
+    expect(screen.getByLabelText('What happened?')).toBeInTheDocument()
+  })
+
+  it('renders behavioral activation for that technique', () => {
+    render(<InterventionCard recommendation={rec({ technique: 'behavioral_activation' })} />)
+    expect(screen.getByLabelText(/one small thing/i)).toBeInTheDocument()
+  })
+
+  it('shows steps and marks done for a static technique', async () => {
     const onComplete = vi.fn()
     const user = userEvent.setup()
     const { container } = render(
-      <InterventionCard recommendation={thoughtRecord} onComplete={onComplete} />,
+      <InterventionCard recommendation={rec({ technique: 'grounding' })} onComplete={onComplete} />,
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: /mark as done/i }))
@@ -45,7 +53,7 @@ describe('InterventionCard', () => {
   })
 
   it('discloses the cited "why this helps"', () => {
-    render(<InterventionCard recommendation={thoughtRecord} />)
+    render(<InterventionCard recommendation={rec({ source: 'Grounding (research/02)' })} />)
     expect(screen.getByText(/why this helps/i)).toBeInTheDocument()
     expect(screen.getByText(/research\/02/)).toBeInTheDocument()
   })

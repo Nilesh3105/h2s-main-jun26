@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -12,6 +13,10 @@ vi.mock('./lib/api', () => ({
     listCheckIns: vi.fn().mockResolvedValue([]),
     createCheckIn: vi.fn(),
     logIntervention: vi.fn(),
+    getInsights: vi.fn().mockResolvedValue(null),
+    listExamDates: vi.fn().mockResolvedValue([]),
+    addExamDate: vi.fn(),
+    deleteExamDate: vi.fn(),
   },
   ApiError: class ApiError extends Error {},
 }))
@@ -29,17 +34,15 @@ describe('App shell', () => {
     expect(screen.getByRole('note')).toHaveTextContent(/not a medical device/i)
   })
 
-  it('reveals crisis helplines when the help button is pressed', async () => {
+  it('routes to the crisis page with verified helplines', async () => {
+    const user = userEvent.setup()
     render(<App />)
-    const toggle = screen.getByRole('button', { name: /need to talk now/i })
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
-    toggle.click()
+    await user.click(screen.getByRole('link', { name: /need to talk now/i }))
     expect(await screen.findByRole('link', { name: /14416/ })).toBeInTheDocument()
   })
 
   it('has no detectable accessibility violations', async () => {
     const { container } = render(<App />)
-    // Flush the initial async data loads (resolve to []).
     await screen.findByRole('heading', { level: 1, name: /soft reset/i })
     expect(await axe(container)).toHaveNoViolations()
   })
