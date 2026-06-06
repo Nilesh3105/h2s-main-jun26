@@ -1,7 +1,7 @@
 [project]
-name = "sukoon-backend"
+name = "softreset-backend"
 version = "0.1.0"
-description = "Sukoon — a private, research-grounded wellness companion for exam aspirants (backend)."
+description = "Soft Reset — a private, research-grounded wellness companion for exam aspirants (backend)."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

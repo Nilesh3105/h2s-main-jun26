@@ -18,7 +18,7 @@ def test_health_returns_ok() -> None:
     assert response.status_code == 200
     body = response.json()
     assert body["status"] == "ok"
-    assert body["app"] == "Sukoon"
+    assert body["app"] == "Soft Reset"
 
 
 def test_health_reports_ai_disabled_without_key() -> None:

@@ -1,4 +1,4 @@
-# Sukoon — backend
+# Soft Reset — backend
 
 Python + [uv](https://docs.astral.sh/uv/) · FastAPI · SQLModel over SQLite.
 

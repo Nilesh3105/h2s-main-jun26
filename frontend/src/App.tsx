@@ -9,14 +9,15 @@ function App() {
   return (
     <main className="app-shell">
       <header>
-        <h1>Sukoon</h1>
+        <h1>Soft Reset</h1>
         <p className="tagline">
-          A private, judgment-free space to check in on how you&rsquo;re doing.
+          A private, judgment-free space to check in on how you&rsquo;re doing. Take a breath, start
+          fresh.
         </p>
       </header>
 
       <p className="disclaimer" role="note">
-        Sukoon is a wellness companion, not a medical device. It does not diagnose or treat any
+        Soft Reset is a wellness companion, not a medical device. It does not diagnose or treat any
         condition. If you need to talk to someone now, help is always one tap away.
       </p>
     </main>

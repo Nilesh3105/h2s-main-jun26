@@ -7,7 +7,7 @@ import App from './App'
 describe('App shell', () => {
   it('renders the product name as the top-level heading', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { level: 1, name: /sukoon/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: /soft reset/i })).toBeInTheDocument()
   })
 
   it('shows the "not a medical device" disclaimer', () => {

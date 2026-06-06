@@ -1,6 +1,6 @@
-# Sukoon — frontend
+# Soft Reset — frontend
 
-React · Vite · TypeScript. The accessible web UI for the Sukoon wellness companion.
+React · Vite · TypeScript. The accessible web UI for the Soft Reset wellness companion.
 See the root [`DESIGN.md`](../DESIGN.md) for the full architecture and the accessibility plan.
 
 ## Setup

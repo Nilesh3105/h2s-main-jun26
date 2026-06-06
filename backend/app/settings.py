@@ -20,10 +20,10 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "Sukoon"
+    app_name: str = "Soft Reset"
 
     # SQLite by default: zero-config and reproducible in a clean grader environment.
-    database_url: str = "sqlite:///./sukoon.db"
+    database_url: str = "sqlite:///./softreset.db"
 
     # Comma-separated CORS allowlist; defaults to the local Vite dev server.
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"

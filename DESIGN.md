@@ -1,9 +1,10 @@
-# Sukoon — Design
+# Soft Reset — Design
 
 > A private, research-grounded wellness companion for students navigating board exams,
 > competitive entrance tests (NEET, JEE, CUET, CAT, GATE, UPSC), and result season.
 >
-> Status: **APPROVED** · 2026-06-06 · Name *Sukoon* (सुकून, "calm").
+> Status: **APPROVED** · 2026-06-06 · Name *Soft Reset* (a gentle restart, nothing wiped — for
+> your head, not your phone). Renamed from *Sukoon* on 2026-06-06 for a younger, more relatable feel.
 
 This document is both our build plan and our methodology record. Design decisions trace to
 cited evidence in [`research/`](research/README.md). It is written to serve two audiences:
@@ -168,7 +169,7 @@ key is present and healthy; deterministic otherwise; per-call fallback on any er
 ## 10. Architecture & stack
 
 ```
-sukoon/
+softreset/
 ├── backend/                 # Python + uv
 │   ├── app/
 │   │   ├── api/             # FastAPI routers (thin)
@@ -269,7 +270,9 @@ AI layer is cut for time, the submission still scores across all six dimensions.
 
 ## 17. Resolved decisions (2026-06-06)
 
-- **Name:** Sukoon.
+- **Name:** Soft Reset (renamed from *Sukoon* on 2026-06-06 — chosen for a younger, more relatable,
+  tech-native feel that still maps to the product: a gentle mental restart, no pressure). Live at
+  `softreset.vercel.app`.
 - **Storage:** backend SQLite is the source of truth — single local user, no auth for MVP, no
   third-party analytics, data stays in-app, with export + delete. ("Local-first" here means no
   accounts / no third-party sharing — not browser-only, since the AI reflection needs the data

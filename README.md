@@ -1,6 +1,6 @@
-# Sukoon — a calm space for exam season
+# Soft Reset — a calm space for exam season
 
-> सुकून · _sukoon_ — "calm, peace of mind."
+> _soft reset_ (n.) — a gentle restart, nothing wiped. For your head, not your phone.
 
 A private, research-grounded **wellness companion** for students navigating board exams,
 competitive entrance tests (NEET, JEE, CUET, CAT, GATE, UPSC), and result season. Check in on
@@ -63,7 +63,7 @@ DESIGN.md   The build plan and methodology record
 
 ## Safety & privacy
 
-Sukoon is **not a medical device** — it does not diagnose or treat. A deterministic (never
+Soft Reset is **not a medical device** — it does not diagnose or treat. A deterministic (never
 AI-gated) crisis check routes to verified India helplines with no sign-up. Data is local-first
 with no third-party analytics on mood/journal content. See [`DESIGN.md`](DESIGN.md) §8–§9 and
 [`research/04`](research/04-safety-ethics-privacy.md). _Helpline numbers are re-verified before

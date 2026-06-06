@@ -1,1 +1,1 @@
-"""Sukoon backend application package."""
+"""Soft Reset backend application package."""
