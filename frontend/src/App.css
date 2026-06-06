@@ -38,6 +38,29 @@
   white-space: nowrap;
 }
 
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-nav a {
+  padding: 0.5rem 0.9rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-muted);
+  border-bottom: 3px solid transparent;
+  font-weight: 600;
+}
+
+.app-nav a[aria-current='page'] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .help-panel {
   margin-top: 1rem;
 }

@@ -7,7 +7,7 @@ seed drift. Timestamps are timezone-aware UTC.
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 
 from sqlmodel import Field, SQLModel
 
@@ -43,3 +43,12 @@ class InterventionEvent(SQLModel, table=True):
     technique: str
     completed: bool = Field(default=False)
     created_at: datetime = Field(default_factory=utcnow)
+
+
+class ExamDate(SQLModel, table=True):
+    """A user-flagged exam or result date — drives the result-season support mode."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    label: str
+    date: date
+    kind: str  # "exam" | "result" (validated at the schema boundary)

@@ -1,0 +1,54 @@
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { api } from '../lib/api'
+import type { Insights } from '../lib/types'
+import { DashboardPage } from './DashboardPage'
+
+vi.mock('../lib/api', () => ({
+  api: {
+    getInsights: vi.fn(),
+    listExamDates: vi.fn().mockResolvedValue([]),
+    addExamDate: vi.fn(),
+    deleteExamDate: vi.fn(),
+  },
+  ApiError: class ApiError extends Error {},
+}))
+
+const sampleInsights: Insights = {
+  trend: [{ date: '2026-06-05', mood: 3, count: 1 }],
+  summary: 'You’ve checked in across 1 day. Your most recent mood was okay.',
+  top_triggers: [{ slug: 'anxious', label: 'Anxious or panicky', count: 1 }],
+  cards: [],
+  season: { active: true, label: 'Exam season', message: 'Your JEE is in 3 days.' },
+  total_check_ins: 1,
+}
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  vi.mocked(api.listExamDates).mockResolvedValue([])
+})
+
+describe('DashboardPage', () => {
+  it('loads and renders insights', async () => {
+    vi.mocked(api.getInsights).mockResolvedValue(sampleInsights)
+    render(<DashboardPage />)
+    expect(await screen.findByText(/checked in across 1 day/i)).toBeInTheDocument()
+    expect(screen.getByText('Exam season')).toBeInTheDocument()
+    expect(screen.getByText('Anxious or panicky')).toBeInTheDocument()
+  })
+
+  it('has no accessibility violations', async () => {
+    vi.mocked(api.getInsights).mockResolvedValue(sampleInsights)
+    const { container } = render(<DashboardPage />)
+    await screen.findByText(/checked in across 1 day/i)
+    expect(await axe(container)).toHaveNoViolations()
+  })
+
+  it('shows an error message when loading fails', async () => {
+    vi.mocked(api.getInsights).mockRejectedValue(new Error('boom'))
+    render(<DashboardPage />)
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+  })
+})

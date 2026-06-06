@@ -2,7 +2,15 @@
 // Vite dev server proxies /api to the backend). All failures surface as ApiError
 // so the UI can show a calm, friendly message rather than crashing.
 
-import type { CheckInPayload, CheckInRecord, CheckInResult, Trigger } from './types'
+import type {
+  CheckInPayload,
+  CheckInRecord,
+  CheckInResult,
+  ExamDate,
+  ExamKind,
+  Insights,
+  Trigger,
+} from './types'
 
 const API_BASE = (import.meta.env.VITE_API_BASE ?? '').replace(/\/+$/, '')
 
@@ -32,6 +40,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       `Something went wrong (${response.status}). Please try again.`,
     )
   }
+  if (response.status === 204) {
+    return undefined as T
+  }
   return (await response.json()) as T
 }
 
@@ -48,4 +59,12 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ technique, completed }),
     }),
+  getInsights: () => request<Insights>('/api/insights'),
+  listExamDates: () => request<ExamDate[]>('/api/exam-dates'),
+  addExamDate: (label: string, date: string, kind: ExamKind) =>
+    request<ExamDate>('/api/exam-dates', {
+      method: 'POST',
+      body: JSON.stringify({ label, date, kind }),
+    }),
+  deleteExamDate: (id: number) => request<void>(`/api/exam-dates/${id}`, { method: 'DELETE' }),
 }

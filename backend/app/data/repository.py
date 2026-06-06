@@ -7,9 +7,11 @@ them to Pydantic response schemas.
 
 from __future__ import annotations
 
+from datetime import date
+
 from sqlmodel import Session, select
 
-from app.data.models import CheckIn, CheckInTrigger, InterventionEvent
+from app.data.models import CheckIn, CheckInTrigger, ExamDate, InterventionEvent
 
 
 def create_check_in(
@@ -63,3 +65,45 @@ def log_intervention(
     session.commit()
     session.refresh(event)
     return event
+
+
+def all_check_ins_with_triggers(session: Session) -> list[tuple[CheckIn, list[str]]]:
+    """All check-ins (oldest first) paired with their trigger slugs.
+
+    Avoids an N+1 by loading the link table once and grouping in memory.
+    """
+    checkins = list(
+        session.exec(select(CheckIn).order_by(CheckIn.created_at)).all()  # type: ignore[arg-type]
+    )
+    links = session.exec(select(CheckInTrigger)).all()
+    by_checkin: dict[int, list[str]] = {}
+    for link in links:
+        if link.check_in_id is not None:
+            by_checkin.setdefault(link.check_in_id, []).append(link.trigger_slug)
+    return [(c, by_checkin.get(c.id, []) if c.id is not None else []) for c in checkins]
+
+
+def create_exam_date(session: Session, *, label: str, on: date, kind: str) -> ExamDate:
+    """Persist an exam/result date."""
+    exam_date = ExamDate(label=label, date=on, kind=kind)
+    session.add(exam_date)
+    session.commit()
+    session.refresh(exam_date)
+    return exam_date
+
+
+def list_exam_dates(session: Session) -> list[ExamDate]:
+    """Return all exam/result dates, soonest first."""
+    return list(
+        session.exec(select(ExamDate).order_by(ExamDate.date)).all()  # type: ignore[arg-type]
+    )
+
+
+def delete_exam_date(session: Session, *, exam_date_id: int) -> bool:
+    """Delete an exam/result date; return True if a row was removed."""
+    exam_date = session.get(ExamDate, exam_date_id)
+    if exam_date is None:
+        return False
+    session.delete(exam_date)
+    session.commit()
+    return True

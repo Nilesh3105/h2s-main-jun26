@@ -47,3 +47,50 @@ export interface CheckInResult {
   recommendation: Recommendation
   crisis: boolean
 }
+
+// --- Trends & insights (Milestone 3) ---
+
+export interface TrendPoint {
+  /** ISO date (YYYY-MM-DD). */
+  date: string
+  /** Average mood (1–5) for that day. */
+  mood: number
+  count: number
+}
+
+export interface TriggerCount {
+  slug: string
+  label: string
+  count: number
+}
+
+export interface InsightCard {
+  title: string
+  detail: string
+  /** Tone hint for styling: 'positive' | 'watch' | 'neutral'. */
+  tone: 'positive' | 'watch' | 'neutral'
+}
+
+export type ExamKind = 'exam' | 'result'
+
+export interface ExamDate {
+  id: number
+  label: string
+  date: string
+  kind: ExamKind
+}
+
+export interface SeasonStatus {
+  active: boolean
+  label: string | null
+  message: string | null
+}
+
+export interface Insights {
+  trend: TrendPoint[]
+  summary: string
+  top_triggers: TriggerCount[]
+  cards: InsightCard[]
+  season: SeasonStatus
+  total_check_ins: number
+}

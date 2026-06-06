@@ -1,0 +1,21 @@
+.season-banner {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-left-width: 4px;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.season-banner__label {
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+}
+
+.season-banner__message {
+  margin: 0;
+  color: var(--text);
+}

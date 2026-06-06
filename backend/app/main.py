@@ -14,7 +14,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.checkins import router as checkins_router
+from app.api.exam_dates import router as exam_dates_router
 from app.api.health import router as health_router
+from app.api.insights import router as insights_router
 from app.data.db import create_db_and_tables
 from app.settings import get_settings
 
@@ -52,6 +54,8 @@ def create_app() -> FastAPI:
 
     app.include_router(health_router, prefix="/api")
     app.include_router(checkins_router, prefix="/api")
+    app.include_router(insights_router, prefix="/api")
+    app.include_router(exam_dates_router, prefix="/api")
 
     return app
 
