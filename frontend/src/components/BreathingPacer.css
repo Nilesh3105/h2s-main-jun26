@@ -1,0 +1,89 @@
+.breath {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.breath-instruction {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Decorative pacing circle. Sizing transitions are driven by the is-* classes,
+   which the component only applies when reduced motion is NOT preferred. The
+   global reduced-motion media query in index.css neutralises any transition as
+   a second line of defence. */
+.breath-circle {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.85;
+  transform: scale(0.6);
+  transition: transform 4s ease-in-out;
+}
+
+.breath-circle.is-inhale {
+  transform: scale(1);
+}
+
+.breath-circle.is-exhale {
+  transform: scale(0.6);
+}
+
+.breath-circle.is-hold {
+  transform: scale(0.8);
+}
+
+.breath-phase {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.breath-rounds {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.breath-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.breath-button {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border: 2px solid var(--accent);
+  border-radius: 0.6rem;
+  background: var(--accent);
+  color: var(--surface);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.breath-button:hover {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.breath-button--ghost {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.breath-button--ghost:hover {
+  background: var(--bg);
+}

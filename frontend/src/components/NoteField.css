@@ -1,0 +1,27 @@
+.note-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.note-field__label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.note-field__input {
+  min-height: 5.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+
+.note-field__counter {
+  align-self: flex-end;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

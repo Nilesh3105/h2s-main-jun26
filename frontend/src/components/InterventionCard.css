@@ -1,0 +1,60 @@
+.intervention {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.intervention__eyebrow {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.intervention h2 {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.intervention__rationale {
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+
+.intervention__steps {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.intervention__done {
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.intervention__why {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.intervention__why summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.intervention__source {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
