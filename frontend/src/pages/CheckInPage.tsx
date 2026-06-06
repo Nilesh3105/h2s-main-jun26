@@ -154,12 +154,12 @@ export function CheckInPage() {
         <NoteField value={note} onChange={setNote} />
 
         {validation && (
-          <p role="alert" className="checkin-form__error">
+          <p role="alert" className="form-error">
             {validation}
           </p>
         )}
         {error && (
-          <p role="alert" className="checkin-form__error">
+          <p role="alert" className="form-error">
             {error}
           </p>
         )}

@@ -48,6 +48,24 @@ body {
   outline-offset: 2px;
 }
 
+/* Shared inline error/alert styling (used by role="alert" messages). */
+.form-error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #fdecea;
+  color: #8a1c1c;
+  border: 1px solid #f5c6c2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-error {
+    background: #3a1d1b;
+    color: #f3b7b1;
+    border-color: #7a302b;
+  }
+}
+
 /* Respect users who prefer reduced motion: disable non-essential animation. */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from sqlmodel import Session, select
+from sqlmodel import Session, col, select
 
 from app.data.models import CheckIn, CheckInTrigger, ExamDate, InterventionEvent
 
@@ -50,9 +50,7 @@ def trigger_slugs_for(session: Session, check_in_id: int) -> list[str]:
 def list_check_ins(session: Session, *, limit: int = 30) -> list[CheckIn]:
     """Return the most recent check-ins, newest first."""
     return list(
-        session.exec(
-            select(CheckIn).order_by(CheckIn.created_at.desc()).limit(limit)  # type: ignore[attr-defined]
-        ).all()
+        session.exec(select(CheckIn).order_by(col(CheckIn.created_at).desc()).limit(limit)).all()
     )
 
 
@@ -72,9 +70,7 @@ def all_check_ins_with_triggers(session: Session) -> list[tuple[CheckIn, list[st
 
     Avoids an N+1 by loading the link table once and grouping in memory.
     """
-    checkins = list(
-        session.exec(select(CheckIn).order_by(CheckIn.created_at)).all()  # type: ignore[arg-type]
-    )
+    checkins = list(session.exec(select(CheckIn).order_by(col(CheckIn.created_at))).all())
     links = session.exec(select(CheckInTrigger)).all()
     by_checkin: dict[int, list[str]] = {}
     for link in links:
@@ -94,9 +90,7 @@ def create_exam_date(session: Session, *, label: str, on: date, kind: str) -> Ex
 
 def list_exam_dates(session: Session) -> list[ExamDate]:
     """Return all exam/result dates, soonest first."""
-    return list(
-        session.exec(select(ExamDate).order_by(ExamDate.date)).all()  # type: ignore[arg-type]
-    )
+    return list(session.exec(select(ExamDate).order_by(col(ExamDate.date))).all())
 
 
 def delete_exam_date(session: Session, *, exam_date_id: int) -> bool:

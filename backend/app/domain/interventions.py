@@ -93,8 +93,3 @@ INTERVENTIONS: dict[Technique, InterventionInfo] = {
         duration_min=2,
     ),
 }
-
-
-def get_intervention(technique: Technique) -> InterventionInfo:
-    """Return the static info for a technique."""
-    return INTERVENTIONS[technique]

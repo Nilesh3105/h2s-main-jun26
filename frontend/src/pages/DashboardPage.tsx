@@ -16,33 +16,28 @@ export function DashboardPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // `loading` starts true; we deliberately don't flip it synchronously here so
-  // the mount effect never calls setState synchronously (state updates happen
-  // after the awaited fetch resolves).
-  const load = useCallback(async () => {
-    try {
-      const [ins, ex] = await Promise.all([api.getInsights(), api.listExamDates()])
-      setInsights(ins)
-      setDates(ex)
-      setError(null)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load your trends right now.')
-    } finally {
-      setLoading(false)
-    }
+  // State updates happen only in the promise callbacks (after the fetch settles),
+  // never synchronously inside the effect body — this is a data-load, not a
+  // render cascade.
+  const load = useCallback(() => {
+    Promise.all([api.getInsights(), api.listExamDates()])
+      .then(([ins, ex]) => {
+        setInsights(ins)
+        setDates(ex)
+        setError(null)
+      })
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : 'Could not load your trends right now.')
+      })
+      .finally(() => setLoading(false))
   }, [])
 
-  useEffect(() => {
-    // Fetch trends once on mount. State only updates after the awaited fetch
-    // resolves; this is the intended data-loading effect, not a render-cascade.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load()
-  }, [load])
+  useEffect(load, [load])
 
   async function handleAdd(label: string, date: string, kind: ExamKind) {
     try {
       await api.addExamDate(label, date, kind)
-      await load()
+      load()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save that date.')
     }
@@ -51,7 +46,7 @@ export function DashboardPage() {
   async function handleDelete(id: number) {
     try {
       await api.deleteExamDate(id)
-      await load()
+      load()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not remove that date.')
     }
@@ -66,7 +61,7 @@ export function DashboardPage() {
 
       {loading && <p>Loading your trends&hellip;</p>}
       {error && (
-        <p role="alert" className="dashboard__error">
+        <p role="alert" className="form-error">
           {error}
         </p>
       )}
