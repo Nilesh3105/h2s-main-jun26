@@ -12,15 +12,15 @@ npm run dev        # http://localhost:5173
 
 ## Scripts
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Type-check (`tsc -b`) and build for production |
-| `npm run preview` | Preview the production build |
-| `npm run lint` | ESLint, including `eslint-plugin-jsx-a11y` (accessibility) |
-| `npm run typecheck` | TypeScript, strict mode |
-| `npm test` | Vitest + Testing Library + jest-axe (a11y assertions) |
-| `npm run format` / `format:check` | Prettier write / check |
+| Command                           | What it does                                               |
+| --------------------------------- | ---------------------------------------------------------- |
+| `npm run dev`                     | Start the Vite dev server                                  |
+| `npm run build`                   | Type-check (`tsc -b`) and build for production             |
+| `npm run preview`                 | Preview the production build                               |
+| `npm run lint`                    | ESLint, including `eslint-plugin-jsx-a11y` (accessibility) |
+| `npm run typecheck`               | TypeScript, strict mode                                    |
+| `npm test`                        | Vitest + Testing Library + jest-axe (a11y assertions)      |
+| `npm run format` / `format:check` | Prettier write / check                                     |
 
 ## Conventions
 
