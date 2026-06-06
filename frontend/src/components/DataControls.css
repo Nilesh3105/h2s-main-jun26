@@ -1,0 +1,75 @@
+.data-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.data-controls__action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.data-controls__hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.data-controls__export {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.data-controls__delete-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Warning-styled outline button (label text also changes on confirm, so the
+   meaning never depends on colour alone). */
+.data-controls__delete {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  font-weight: 600;
+  color: #8a1c1c;
+  background: transparent;
+  border: 1px solid #c0392b;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.data-controls__cancel {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.data-controls__done {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .data-controls__delete {
+    color: #f3b7b1;
+    border-color: #c0392b;
+  }
+}

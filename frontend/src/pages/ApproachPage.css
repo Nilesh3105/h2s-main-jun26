@@ -1,0 +1,35 @@
+.approach-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 65ch;
+}
+
+.approach-page__section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.approach-page__section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.approach-page__section p {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+}
+
+.approach-page__section p:last-of-type {
+  margin-bottom: 0;
+}
+
+.approach-page__section code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.9em;
+}

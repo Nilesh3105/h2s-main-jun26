@@ -2,6 +2,7 @@ import './App.css'
 
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 
+import { ApproachPage } from './pages/ApproachPage'
 import { CheckInPage } from './pages/CheckInPage'
 import { CrisisPage } from './pages/CrisisPage'
 import { DashboardPage } from './pages/DashboardPage'
@@ -30,6 +31,7 @@ function App() {
             </NavLink>
             <NavLink to="/trends">Trends</NavLink>
             <NavLink to="/help">Get help</NavLink>
+            <NavLink to="/approach">Our approach</NavLink>
           </nav>
         </header>
 
@@ -38,6 +40,7 @@ function App() {
             <Route path="/" element={<CheckInPage />} />
             <Route path="/trends" element={<DashboardPage />} />
             <Route path="/help" element={<CrisisPage />} />
+            <Route path="/approach" element={<ApproachPage />} />
           </Routes>
         </main>
 

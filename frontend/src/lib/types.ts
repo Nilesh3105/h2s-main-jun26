@@ -119,3 +119,9 @@ export interface TagsResult {
   source: string
   crisis: boolean
 }
+
+export interface DataExport {
+  exported_at: string
+  check_ins: CheckInRecord[]
+  exam_dates: ExamDate[]
+}

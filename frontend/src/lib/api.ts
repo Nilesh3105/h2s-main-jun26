@@ -6,6 +6,7 @@ import type {
   CheckInPayload,
   CheckInRecord,
   CheckInResult,
+  DataExport,
   ExamDate,
   ExamKind,
   Insights,
@@ -95,4 +96,6 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ note }),
     }),
+  exportData: () => request<DataExport>('/api/data/export'),
+  deleteData: () => request<void>('/api/data', { method: 'DELETE' }),
 }

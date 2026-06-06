@@ -11,17 +11,19 @@ This is a hackathon submission for the **Mental Wellness Tracker** challenge.
 
 **Live demo:** https://softreset.vercel.app  ·  **One-line pitch:** see [`SUBMISSION.txt`](SUBMISSION.txt)
 
-> The hosted demo is the static frontend; its data features show a calm "offline" notice
-> until a backend is reachable. The crisis help and grounding tools work there regardless.
-> Run locally (below) for the full, tested experience the automated grader scores.
+> The hosted frontend talks to a hosted backend (`softreset-api.vercel.app`). On Vercel the
+> backend uses ephemeral `/tmp` SQLite, so **demo data resets on cold start** — that's a hosting
+> choice, not a bug. Run locally (below) for durable storage and the full experience the automated
+> grader scores.
 
 ## What it does
 
 - **30-second check-in** — mood + energy + last night's sleep + research-grounded trigger tags + an optional note.
 - **A matched micro-exercise**, chosen by a deterministic rules engine: guided **paced breathing**, an interactive **thought-record** (cognitive reframe), **behavioral activation** ("plan one small thing"), or a sleep wind-down / grounding pause — each with a cited "Why this helps".
-- **Private trends** — accessible mood-over-time chart (+ data table + text summary), your top stressors, and gentle pattern insights (e.g. how short sleep tracks with mood).
+- **Private trends** — accessible mood-over-time chart (+ data table + text summary), your top stressors, gentle pattern insights, and a **weekly reflection** (AI-personalised when a key is set, a clear template otherwise).
 - **Result-season mode** — flag your exam/result dates and the app turns a little gentler in the run-up and just after.
 - **Always-on crisis help** — a one-tap, deep-linkable screen with verified India helplines, triggered automatically when a deterministic classifier detects distress in your words.
+- **An "Our approach" page** explaining how suggestions are chosen, the research behind them, and your privacy — with one-tap **data export and delete**.
 
 ## Why this exists
 
