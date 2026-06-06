@@ -9,6 +9,20 @@ micro-exercise — with crisis help always one tap away.
 
 This is a hackathon submission for the **Mental Wellness Tracker** challenge.
 
+**Live demo:** https://softreset.vercel.app  ·  **One-line pitch:** see [`SUBMISSION.txt`](SUBMISSION.txt)
+
+> The hosted demo is the static frontend; its data features show a calm "offline" notice
+> until a backend is reachable. The crisis help and grounding tools work there regardless.
+> Run locally (below) for the full, tested experience the automated grader scores.
+
+## What it does
+
+- **30-second check-in** — mood + energy + last night's sleep + research-grounded trigger tags + an optional note.
+- **A matched micro-exercise**, chosen by a deterministic rules engine: guided **paced breathing**, an interactive **thought-record** (cognitive reframe), **behavioral activation** ("plan one small thing"), or a sleep wind-down / grounding pause — each with a cited "Why this helps".
+- **Private trends** — accessible mood-over-time chart (+ data table + text summary), your top stressors, and gentle pattern insights (e.g. how short sleep tracks with mood).
+- **Result-season mode** — flag your exam/result dates and the app turns a little gentler in the run-up and just after.
+- **Always-on crisis help** — a one-tap, deep-linkable screen with verified India helplines, triggered automatically when a deterministic classifier detects distress in your words.
+
 ## Why this exists
 
 Indian exam aspirants face a real, worsening mental-health crisis, and the strongest predictors of
